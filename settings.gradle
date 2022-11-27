@@ -1,3 +1,5 @@
 
 rootProject.name = 'java-to-kotlin'
+include 'src:test:java'
+findProject(':src:test:java')?.name = 'java'
 

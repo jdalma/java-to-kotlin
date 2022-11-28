@@ -2,25 +2,25 @@ package travelator;
 
 import java.util.Objects;
 
-public class EmailAddress {
+public class EmailAddressJava {
     private final String localPart; // <1> 필드는 불변이다.
     private final String domain;
 
     // <2> 문자열을 파싱해 이메일을 만드는 "정적 팩토리 메소드"
-    public static EmailAddress parse(String value) {
+    public static EmailAddressJava parse(String value) {
         var atIndex = value.lastIndexOf('@');
         if (atIndex < 1 || atIndex == value.length() - 1)
             throw new IllegalArgumentException(
                     "EmailAddress must be two parts separated by @"
             );
-        return new EmailAddress(
+        return new EmailAddressJava(
                 value.substring(0, atIndex),
                 value.substring(atIndex + 1)
         );
     }
 
     // <3> 생성자
-    public EmailAddress(String localPart, String domain) {
+    public EmailAddressJava(String localPart, String domain) {
         this.localPart = localPart;
         this.domain = domain;
     }
@@ -37,7 +37,7 @@ public class EmailAddress {
     public boolean equals(Object o) { // <5>
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        EmailAddress that = (EmailAddress) o;
+        EmailAddressJava that = (EmailAddressJava) o;
         return localPart.equals(that.localPart) &&
                 domain.equals(that.domain);
     }

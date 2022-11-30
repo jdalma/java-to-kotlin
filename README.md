@@ -11,7 +11,10 @@
 - **동반 객체(Companion Object)**
 - `@JvmStatic`
 - `inline fun require(value: Boolean, lazyMessage: () -> Any): Unit`
-
+- `Legs` 선언 시 `object` 키워드
+- **함수 추출(Extract Function)**
+- **호출 연산자 `!!.` , `?.`**
+  - 실전에서 `!!`을 사용하는 몇 안되는 경우가 바로 테스트다.
 
 ***
 
@@ -138,3 +141,30 @@ fun BigDecimal.withScale(int scale, RoundingMode mode) = setScale(scale, mode)
 `Optional`을 사용하면 이런 변경이 쉽지 않다.
 
 ## 옵셔널에서 널 가능성으로 리팩토링 하기
+
+코틀린 함수에서 널이 될 수 없는 파라미터를 지정하면 컴파일러가 함수 본문 이전에 널 검사를 추가해준다. **(컴파일 코드에 없는 것 같은데..)** 
+
+```kotlin
+@kotlin.jvm.JvmStatic 
+public final fun findLongestLegOver(
+    legs: kotlin.collections.List<travelator.Leg>, 
+    duration: java.time.Duration
+): java.util.Optional<travelator.Leg> { /* compiled code */ }
+```
+
+`Optional<Leg>`와 `Leg?`를 반환하는 함수를 비교해보자 [`LongestLegOverTests.kt` 예제 코드]()  
+자바 클라이언트는 `Optional<Leg>`를 반환하는 `findLongestLegOver()`를 사용   
+코틀린 클라이언트는 널이 될 수 있는 `Leg?`를 반환하는 `longestLegOver()`를 사용  
+
+
+
+### **이터레이션과 `for`루프**
+
+코틀린에서는 `Iterable`이 아닌 다른 타입을 `for`루프에 사용할 수도 있다.
+- [`jdalma` Java Iterator, Enumerator, Iterable ?](https://jdalma.github.io/docs/lab/iterator_vs_enumeration/)
+
+1. `Iterable`을 확장하는 타입
+2. `Iterator`를 반환하는 `iterator()` 제공하는 타입
+3. `Iterator`를 반환하는  `T.iterator()` 확장 함수가 영역 안에 정의된 `T 타입`
+
+두 번째와 세 번째 방식은 해당 타입을 `Iterable`로 만들어 주지는 못하며, 코틀린 `for`루프만 적용할 수 있을 뿐이다.  

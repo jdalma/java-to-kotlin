@@ -14,51 +14,51 @@ object Legs {
 }
 
 //  [1]
-//fun longestLegOver(
-//  legs: List<Leg>,
-//  duration: Duration
-//): Leg? {
-//  var longestLeg: Leg? = legs.maxByOrNull(Leg::plannedDuration) ?: return null
-//  return if (longestLeg != null && longestLeg.plannedDuration > duration)
-//      longestLeg
-//  else
-//      null
-//}
+fun longestLegOver1(
+  legs: List<Leg>,
+  duration: Duration
+): Leg? {
+  var longestLeg: Leg? = legs.maxByOrNull(Leg::plannedDuration) ?: return null
+  return if (longestLeg != null && longestLeg.plannedDuration > duration)
+      longestLeg
+  else
+      null
+}
 
 //    [2]
-//fun longestLegOver(
-//    legs: List<Leg>,
-//    duration: Duration
-//): Leg? {
-//    val longestLeg = legs.maxByOrNull(Leg::plannedDuration)?.let { longestLeg ->
-//        if (longestLeg.plannedDuration > duration)
-//            longestLeg
-//        else
-//            null
-//    }
-//}
+fun longestLegOver2(
+    legs: List<Leg>,
+    duration: Duration
+) {
+    val longestLeg = legs.maxByOrNull(Leg::plannedDuration)?.let { longestLeg ->
+        if (longestLeg.plannedDuration > duration)
+            longestLeg
+        else
+            null
+    }
+}
 
 //    [3]
-//fun longestLegOver(
-//    legs: List<Leg>,
-//    duration: Duration
-//): Leg? {
-//    val longestLeg = legs.maxByOrNull(Leg::plannedDuration)
-//    return when {
-//        longestLeg == null -> null
-//        longestLeg.plannedDuration > duration -> longestLeg
-//        else -> null
-//    }
-//}
+fun longestLegOver3(
+    legs: List<Leg>,
+    duration: Duration
+): Leg? {
+    val longestLeg = legs.maxByOrNull(Leg::plannedDuration)
+    return when {
+        longestLeg == null -> null
+        longestLeg.plannedDuration > duration -> longestLeg
+        else -> null
+    }
+}
 
 //    [4]
-//fun longestLegOver(
-//    legs: List<Leg>,
-//    duration: Duration
-//): Leg? =
-//    legs.maxByOrNull(Leg::plannedDuration)?.takeIf {
-//        longestLeg -> longestLeg.plannedDuration > duration
-//    }
+fun longestLegOver4(
+    legs: List<Leg>,
+    duration: Duration
+): Leg? =
+    legs.maxByOrNull(Leg::plannedDuration)?.takeIf {
+        longestLeg -> longestLeg.plannedDuration > duration
+    }
 
 //  [5]
 fun List<Leg>.longestLegOver(duration: Duration): Leg? {

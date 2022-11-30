@@ -3,7 +3,6 @@ package travelator
 import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.Test
 import travelator.Legs.findLongestLegOver
-import travelator.Legs.longestLegOver
 import java.time.Duration
 import java.time.Instant
 import java.time.ZoneId
@@ -30,7 +29,7 @@ class LongestLegOverTests {
         )
 
         // nullable
-        assertNull(longestLegOver(emptyList(), Duration.ZERO))
+        assertNull(emptyList<Leg>().longestLegOver(Duration.ZERO))
     }
 
     @Test
@@ -42,7 +41,7 @@ class LongestLegOverTests {
         )
 
         // nullable
-        assertNull(longestLegOver(legs, oneDay))
+        assertNull(legs.longestLegOver(oneDay))
     }
 
     @Test
@@ -57,7 +56,7 @@ class LongestLegOverTests {
         // nullable
         assertEquals(
             "one day",
-            longestLegOver(legs, Duration.ofMillis(-1))
+            legs.longestLegOver(Duration.ofMillis(-1))
             !!.description
         )
     }
@@ -74,7 +73,7 @@ class LongestLegOverTests {
         // nullable
         assertEquals(
             "one day",
-            longestLegOver(legs, Duration.ofMinutes(59))
+            legs.longestLegOver(Duration.ofMinutes(59))
             ?.description
         )
     }

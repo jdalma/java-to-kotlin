@@ -9,12 +9,54 @@
   - 객체 사이의 동등성이 객체의 정체성(=물리적 주소)에 의해 결정되지 않고 **객체 내의 필드 값에 의해 결정되는게 값 의미론**
 - [`kotlinlang docs` 확장 프로그램](https://kotlinlang.org/docs/extensions.html)
 - **동반 객체(Companion Object)**
-- `@JvmStatic`
+- `@JvmStatic`, `@JvmOverloads`
+  - `@JvmStatic` 자바 클래스로 변환될 때 스태틱 메소드를 만들어준다.
 - `inline fun require(value: Boolean, lazyMessage: () -> Any): Unit`
 - `Legs` 선언 시 `object` 키워드
 - **함수 추출(Extract Function)**
 - **호출 연산자 `!!.` , `?.`**
   - 실전에서 `!!`을 사용하는 몇 안되는 경우가 바로 테스트다.
+- **단일식 함수 구문의 장단점**
+- **엘비스 연산자 `?:`**
+- **`Standard.kt`** 내부 `inline fun` 분석
+- **불변 객체를 쓰면 되돌리기나 다시하기 등도 쉽게 구현할 수 있다.**
+- [ADT Types](https://www.geeksforgeeks.org/abstract-data-types/)
+- 코틀린의 다형성
+- `kotlinc`
+- **인스턴스 컨텍스트**
+
+## 1주차 모임 `1장 ~ 4장`
+
+- **코틀린은 값을 반환하거나 반환하지 않는다**는 말의 의미
+- `equals()`를 오버리이딩 할 때 이미 `hashCode()`가 있으니 `hashCode()`를 사용하면 되지 않을까?
+  - `this`와 `that`
+- 코틀린 컴파일러가 자바로 변환할 때 `final class`로 해준다 
+  - **자바 변환기를 사용할 때 `final class`를 인식하고 사용해라**
+- `require()`를 사용하는 건 어떻게 생각하냐
+  - 자바는 예외를 밖으로 밀어내는 컨셉이다
+      - 사용당하는 함수는 자기 책임에만 맞는 내용에 집중한다
+  - 코틀린은 모든 예외를 **런타임 예외**로 바꾼다
+    - `null`을 예외 대신 쓰기도 한다
+    - `try-catch`를 통해 예외를 풍부하게 알려주려고 하는 개발자도 있고 `null`로 처리하는 개발자도 있다.
+- 자바는 확장을 가능하게 모두 열어두지만 **코틀린은 필요할 때만 확장하게 하려는 컨셉**
+- **생성자와 팩토리 메소드가 `서로 같은 처리를 하지 않는다면` 생성자를 감춰야 한다**
+- 코틀린에 있는 `substring()`은 인덱스가 범위를 벗어난다면 **런타임 예외**를 바로 던진다.
+- `"코틀린에서는 최상위 상태와 함수 ..."` -> 코틀린에서는 클래스 밖에 선언이 가능하다
+- 자바 클래스를 코틀린에서 쓸 때 컴파일러가 프로퍼티를 자바빈즈 규약에 맞는 `getXXX()`로 변환한다
+- `data class`는 왜 캡슐화를 제공하지 않는가? -> `copy()`가 자동으로 제공되기 때문에 생성자를 거치지 않고 가능해서 그렇다
+  - 필드 수 만큼 `component`도 만들어준다
+
+```kotlin
+data class A(val a:String, val b:String)
+val (a, b) = A("a", "b")
+```
+
+- 코틀린의 `Iterator`와 `Iterable`은 자바의 호환성을 위해서만 존재한다
+  - `Opreator.next()`와 `Opreator.hasNext()`로도 구분한다
+- 리팩토링은 **시그니처를 변경하지 않고 내부 로직을 변경하는 것**
+  - [ParallelChange](https://martinfowler.com/bliki/ParallelChange.html?fbclid=IwAR2fmOvTcYzV6n4J7xm1H3WKdZU4CV4oOKc7bDUseB4o-Cp1sodleMI5pGw)
+- 코틀린으로는 컬렉션 가지고 제어문을 작성하려 하지마라 **유틸리티가 넘쳐난다.**
+
 
 ***
 
@@ -152,7 +194,7 @@ public final fun findLongestLegOver(
 ): java.util.Optional<travelator.Leg> { /* compiled code */ }
 ```
 
-`Optional<Leg>`와 `Leg?`를 반환하는 함수를 비교해보자 [`LongestLegOverTests.kt` 예제 코드]()  
+`Optional<Leg>`와 `Leg?`를 반환하는 함수를 비교해보자 [`LongestLegOverTests.kt` 예제 코드](https://github.com/jdalma/java-to-kotlin/commit/fa38dd02ee91179300935e9284e2d090022735a5)  
 자바 클라이언트는 `Optional<Leg>`를 반환하는 `findLongestLegOver()`를 사용   
 코틀린 클라이언트는 널이 될 수 있는 `Leg?`를 반환하는 `longestLegOver()`를 사용  
 
@@ -167,4 +209,35 @@ public final fun findLongestLegOver(
 2. `Iterator`를 반환하는 `iterator()` 제공하는 타입
 3. `Iterator`를 반환하는  `T.iterator()` 확장 함수가 영역 안에 정의된 `T 타입`
 
+- 코틀린의 `Iterator`와 `Iterable`은 자바의 호환성을 위해서만 존재한다  
+  - `Opreator.next()`와 `Opreator.hasNext()`로도 구분한다  
+
 두 번째와 세 번째 방식은 해당 타입을 `Iterable`로 만들어 주지는 못하며, 코틀린 `for`루프만 적용할 수 있을 뿐이다.  
+
+## 코틀린다운 코드로 리팩토링 하기 [예제 코드](https://github.com/jdalma/java-to-kotlin/commit/8000db5ab59dd98cd64b08c096c089a49662dde6)
+
+코틀린에서는 추가적인 `네임스페이스`가 필요없다.    
+`Move to top leve (최상위로 옮기기)`를 `longestLegOver`에 적용할 수 있다.  
+
+***
+
+# **5장. 가변 객체를 불변 데이터로**
+
+객체는 **가변 상태를 관리하는 문제에 대한 해결책 이었다.**  
+
+여기서 **값**이라고 말하면 **값 의미론**을 따르는 `구체적인 원시 타입`이나 `참조 타입`을 뜻한다.  
+- 자바 원시 타입 값은 모두 **값 의미론**을 따른다.
+
+**값**은 `불변 데이터 조각`으로 정의하고  
+**값 타입**은 `불변 데이터 조각의 동작을 정의하는 타입`으로 정의하자
+
+Integer는 값 타입, 7은 값이다.  
+
+## 값을 선호해야만 하는 이유는 무엇인가?
+
+값은 `불변 데이터`다.  
+
+1. 맵의 키나 집합 원소로 불변 객체를 넣을 수 있다.
+2. 불변 객체의 컬렉션에 대해 이터레이션하는 경우 내부 원소가 달라질지 염려할 필요가 없다.
+3. 불변 객체를 쓰면 되돌리기나 다시하기 등도 쉽게 구현할 수 있다. ❓
+4. 여러 스레드에서 불변 객체를 안전하게 공유할 수 있다.

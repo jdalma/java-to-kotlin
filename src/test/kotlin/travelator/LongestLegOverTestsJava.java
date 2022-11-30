@@ -12,9 +12,9 @@ import java.util.concurrent.ThreadLocalRandom;
 
 import static java.util.Collections.emptyList;
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static travelator.Legs.findLongestLegOver;
+import static travelator.LegsJava.findLongestLegOver;
 
-class LongestLegOverTests {
+class LongestLegOverTestsJava {
 
     private final List<Leg> legs = List.of(
             leg("one hour", Duration.ofHours(1)),

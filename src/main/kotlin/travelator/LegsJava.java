@@ -4,7 +4,7 @@ import java.time.Duration;
 import java.util.List;
 import java.util.Optional;
 
-public class Legs {
+public class LegsJava {
     public static Optional<Leg> findLongestLegOver(
             List<Leg> legs,
             Duration duration

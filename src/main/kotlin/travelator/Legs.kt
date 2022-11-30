@@ -10,27 +10,27 @@ object Legs {
         legs: List<Leg>,
         duration: Duration
     ): Optional<Leg> {
-        return Optional.ofNullable(longestOver(legs, duration))
+        return Optional.ofNullable(longestLegOver(legs, duration))
     }
 
-    fun isLongerThan(leg: Leg, duration: Duration): Boolean {
+    fun longestLegOver(
+        legs: List<Leg>,
+        duration: Duration
+    ): Leg? {
+        var result: Leg? = null
+        for (leg in legs) {
+            if (isLongerThan(leg, duration)) {
+                if (result == null || isLongerThan(leg, result.plannedDuration)) {
+                    result = leg;
+                }
+            }
+        }
+        return result;
+    }
+
+    private fun isLongerThan(leg: Leg, duration: Duration): Boolean {
         return leg.plannedDuration.compareTo(duration) > 0
 //        Duration은 비교 연산이 바로 되나?
 //        return leg.plannedDuration > duration
     }
-}
-
-fun longestOver(
-    legs: List<Leg>,
-    duration: Duration
-): Leg? {
-    var result: Leg? = null
-    for (leg in legs) {
-        if (Legs.isLongerThan(leg, duration)) {
-            if (result == null || Legs.isLongerThan(leg, result.plannedDuration)) {
-                result = leg;
-            }
-        }
-    }
-    return result;
 }

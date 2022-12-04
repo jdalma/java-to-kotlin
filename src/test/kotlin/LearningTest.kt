@@ -1,5 +1,6 @@
 import org.junit.jupiter.api.Assertions.assertEquals;
 import org.junit.jupiter.api.Test
+import java.util.EmptyStackException
 import kotlin.test.assertNotEquals
 
 class LearningTest {
@@ -31,5 +32,22 @@ class LearningTest {
         assertNotEquals(employee1.hashCode(), employee2.hashCode())
         assertNotEquals(employee1.name, employee2.name)
         assertEquals(employee1.email, employee2.email)
+    }
+
+    @Test
+    fun dataClassReferenceTest() {
+        var employee1 :Employee = Employee("Origin" , "Origin");
+        var employee2 = employee1.copy()
+
+        assertNotEquals(System.identityHashCode(employee1), System.identityHashCode(employee2))
+
+        employee2.name = "Updated";
+
+        assertEquals(employee2.name, "Updated")
+        assertNotEquals(employee1.name, "Updated")
+
+        var employee3 = Employee("Origin", "Origin")
+
+        assertNotEquals(System.identityHashCode(employee1), System.identityHashCode(employee3))
     }
 }

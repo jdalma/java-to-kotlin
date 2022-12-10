@@ -66,4 +66,23 @@ class LearningTest {
 
         assertEquals(secondList.size, strings.size - 1)
     }
+
+    @Test
+    fun referenceTest() {
+        class ValueType(
+            val strings: List<String>
+        ) {
+            val first: String? = strings.firstOrNull()
+        }
+
+        val list = MutableList(3) {index -> "test$index" }
+        val data = ValueType(list)
+
+        assertEquals(data.first, data.strings.first())
+
+        list[0] = "banana"
+        assertEquals(data.strings.first(), "banana")
+        assertEquals(data.first, "test0")
+        assertNotEquals(data.first, data.strings.first())
+    }
 }

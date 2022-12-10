@@ -20,18 +20,6 @@ public class PreferencesViewJava extends View {
         currencyPicker.setCurrency(preferences.getCurrency());
         super.show();
     }
-
-    protected void onGreetingChange() {
-        preferences.setGreeting(greetingPicker.getGreeting());
-    }
-
-    protected void onLocaleChange() {
-        preferences.setLocale(localePicker.getLocale());
-    }
-
-    protected void onCurrencyChange() {
-        preferences.setCurrency(currencyPicker.getCurrency());
-    }
 }
 
 class GreetingPickerJava {

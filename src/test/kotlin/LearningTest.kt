@@ -1,5 +1,6 @@
 import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.Assertions.assertEquals;
+import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.Test
 import kotlin.test.assertNotEquals
 
@@ -52,7 +53,7 @@ class LearningTest {
     }
 
     @Test
-    fun mutableList() {
+    fun <T> mutableList() {
         val strings = arrayOf("first" , "second", "third")
         val firstList: List<String> = mutableListOf(*strings)
 
@@ -89,5 +90,32 @@ class LearningTest {
     @Test
     fun listFilter() {
 
+        val pattern = "3"
+        val size : Int = 5
+        var list = mutableListOf<MutableList<Employee>>()
+
+        for (i in 0..size) {
+            val inner = mutableListOf<Employee>()
+            for (j in 0.. size) {
+                inner.add(Employee("$i$j" , "$i$j"))
+            }
+            list.add(inner)
+        }
+
+        val afterList = list.filter { nameStartsWith(pattern,it) }
+
+        for (employees in afterList) {
+            for (employee in employees) {
+                assertTrue(employee.name.startsWith(pattern))
+            }
+        }
+    }
+
+    private fun nameStartsWith(pattern: String, employees: List<Employee>): Boolean {
+        for (employee in employees)
+            when {
+                !employee.name.startsWith(pattern) -> return false
+            }
+        return true
     }
 }

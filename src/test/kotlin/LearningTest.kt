@@ -85,4 +85,9 @@ class LearningTest {
         assertEquals(data.first, "test0")
         assertNotEquals(data.first, data.strings.first())
     }
+
+    @Test
+    fun listFilter() {
+
+    }
 }

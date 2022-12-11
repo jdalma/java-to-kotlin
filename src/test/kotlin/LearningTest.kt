@@ -118,4 +118,16 @@ class LearningTest {
             }
         return true
     }
+
+    @Test
+    fun unit() {
+        val test : Unit = method()
+        val test1 : Unit = method()
+
+        assertEquals(System.identityHashCode(test), System.identityHashCode(test1))
+    }
+
+    private fun method() {
+
+    }
 }

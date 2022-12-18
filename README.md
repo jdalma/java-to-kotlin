@@ -50,6 +50,8 @@
 - **[Aliasing Error](https://martinfowler.com/bliki/AliasingBug.html)**
 - **클래스와 오브젝트 차이**
 - **[테스트로 인한 설계 손상](https://dhh.dk/2014/test-induced-design-damage.html)**
+- `Arrays.sort()`와 `Collections.sort()`차이  
+- `asSequence()`
 
 ***
 

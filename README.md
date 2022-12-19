@@ -324,3 +324,33 @@ Integer는 값 타입, 7은 값이다.
 **어떤 경우든 외부에서 관찰가능한 부수 효과가 있는 함수는 계산이 아니라 `동작`이다.**  
 - `void`나 `Unit`을 반환하는 함수는 거의 항상 동작이다.
 - 어떤 다른 변할 수 있는 데이터 소스로부터 데이터를 읽어서 결과를 돌려준다면 동작으로 분류할 수 있다.
+
+
+## 추상 객체를 사용하여 `Immutable Collection`을 암시한다 ?
+
+
+```java
+public interface TripsJava {
+    Set<TripJava> tripsFor(String customerId);
+    Set<TripJava> currentTripsFor(String customerId, Instant at);
+}
+```
+
+```kotlin
+class InMemoryTrips : TripsJava {
+    private val trips: MutableMap<String, MutableSet<TripJava>> = mutableMapOf()
+
+    override fun tripsFor(customerId: String?) =
+        trips.getOrDefault(customerId, emptySet<TripJava>())
+
+    override fun currentTripsFor(customerId: String?, at: Instant?) =
+        tripsFor(customerId)
+            .filter { it.isPlannedToBeActiveAt(at) }
+            .toSet()
+}
+```
+
+TripsJava는 **불변 컬렉션**을 반환한다고 명시되어 있지만, 만약 `tripsFor()`에서 **가변 컬렉션**을 반환하면 어떻게 될까?  
+**실제로 반환되는 하위 타입이 우선된다.**  
+
+

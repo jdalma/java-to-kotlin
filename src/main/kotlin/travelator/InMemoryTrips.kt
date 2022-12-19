@@ -13,9 +13,12 @@ class InMemoryTrips : TripsJava {
 
     override fun tripsFor(customerId: String?) =
         trips.getOrDefault(customerId, emptySet<TripJava>())
+//    trips.getOrDefault(customerId, mutableSetOf())
 
     override fun currentTripsFor(customerId: String?, at: Instant?) =
         tripsFor(customerId)
             .filter { it.isPlannedToBeActiveAt(at) }
             .toSet()
+
+
 }

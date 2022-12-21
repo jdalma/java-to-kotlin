@@ -382,6 +382,14 @@ JVM에서는 이런 함수를 둘 곳이 없으므로 **코틀린 컴파일러�
 이 세 가지가 모두 같다면 기본적으로 최상위 함수를 사용해야 할 것이다.    
 - `MyType.of()`와 같은 팩토리 메소드는 동반 객체의 메서드로 함수를 정의해야 한다.
 
+## [`@file:JvmName("Shortlists")`](https://github.com/jdalma/java-to-kotlin/commit/09af98a03d8dfa2e390ef51286dd60aff983f4c9#diff-1044d609b913915ee4faa6e813de12d2a57582f596a0c236f2cce3d5eb03c23c)
+**`import travelator.Shortlists.{method}` 이 형식으로 코틀린에서 코틀린으로 정의된 최상위 함수를 임포트할 수 없다.**
+- 코틀린의 입장에서 이 함수들은 패키지 안의 클래스 안에 정의되어 있지 않기 때문이다.
+- 코틀린 코드 컴파일 시점에 JVM에 `Shortlists`라는 클래스 안에 있는 정적 함수들을 알 수 없기 때문이다
+
+코틀린에서는 **`import travelator.{method}`** 이 형식으로 import 해야한다.
+
+## [`@JvmStatic`]()
 
 ## 질문
 

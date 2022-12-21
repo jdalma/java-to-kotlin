@@ -1,5 +1,5 @@
 package travelator
 
 interface HasPrice {
-    val price: Double
+    val price: Int
 }

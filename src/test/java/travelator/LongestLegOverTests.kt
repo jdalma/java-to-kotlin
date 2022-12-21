@@ -1,16 +1,18 @@
 package travelator
 
+import com.google.inject.util.Types.listOf
 import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.Test
+import org.testng.AssertJUnit.assertEquals
+import org.testng.AssertJUnit.assertNull
 import travelator.Legs.findLongestLegOver
 import java.time.Duration
 import java.time.Instant
 import java.time.ZoneId
 import java.time.ZonedDateTime
 import java.util.*
+import java.util.Collections.emptyList
 import java.util.concurrent.ThreadLocalRandom
-import kotlin.test.assertEquals
-import kotlin.test.assertNull
 
 class LongestLegOverTests {
     private val legs = listOf(

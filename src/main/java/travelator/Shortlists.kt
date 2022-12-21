@@ -1,9 +1,8 @@
-@file:JvmName("Shortlists")
+@file:JvmName("Shortlists") // 패키지나 임포트문보다도 더 앞에 써야한다.
 package travelator
 
 import java.util.Comparator.comparing
 import java.util.Comparator.comparingDouble
-import java.util.stream.Collectors
 import java.util.stream.Collectors.toUnmodifiableList
 import java.util.stream.Stream
 

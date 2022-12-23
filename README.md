@@ -53,6 +53,8 @@
 - `Arrays.sort()`와 `Collections.sort()`차이  
 - `asSequence()`
 - `@file:JvmName`
+- [`kotlinlang` constructors](https://kotlinlang.org/docs/classes.html#constructors)
+
 
 ***
 

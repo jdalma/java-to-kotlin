@@ -3,43 +3,25 @@ package travelator
 import java.util.*
 import java.util.Comparator.comparing
 import java.util.Comparator.comparingDouble
-import java.util.stream.Collectors.toUnmodifiableList
-import java.util.stream.Stream
 
-object Shortlists {
+fun <T> Iterable<T>.sorted(ordering: Comparator<in T>): List<T> =
+    sortedWith(ordering)
 
-    @JvmStatic
-    fun <T> removeItemAt(shortlist: List<T>, index: Int): List<T> {
-        return Stream.concat(
-            shortlist.stream().limit(index.toLong()),
-            shortlist.stream().skip((index + 1).toLong())
-        ).collect(toUnmodifiableList())
-    }
+fun <T> Iterable<T>.removeItemAt(index: Int): List<T> =
+    take(index) + drop(index + 1)
 
-    @JvmStatic
-    fun byRating(): Comparator<HasRating> {
-        return comparingDouble(HasRating::rating).reversed()
-    }
-
-    @JvmStatic
-    fun byPriceLowToHigh(): Comparator<HasPrice> {
-        return comparing(HasPrice::price)
-    }
-
-
-    @JvmStatic
-    fun <T> byValue(): Comparator<T> where T : HasPrice, T : HasRating {
-        return comparingDouble { t: T -> t.rating / t.price }.reversed()
-    }
-
-    @JvmStatic
-    fun byRelevance(): Comparator<HasRelevance> {
-        return comparingDouble(HasRelevance::relevance).reversed()
-    }
-
+fun byRating(): Comparator<HasRating> {
+    return comparingDouble(HasRating::rating).reversed()
 }
 
-fun <T> sorted(shortlist: List<T>, ordering: Comparator<in T>): List<T> {
-    return shortlist.stream().sorted(ordering)
-        .collect(toUnmodifiableList())
+fun byPriceLowToHigh(): Comparator<HasPrice> {
+    return comparing(HasPrice::price)
+}
+
+fun <T> byValue(): Comparator<T> where T : HasPrice, T : HasRating {
+    return comparingDouble { t: T -> t.rating / t.price }.reversed()
+}
+
+fun byRelevance(): Comparator<HasRelevance> {
+    return comparingDouble(HasRelevance::relevance).reversed()
 }

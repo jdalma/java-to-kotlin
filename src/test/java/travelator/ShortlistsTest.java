@@ -1,9 +1,11 @@
-import org.testng.annotations.Test;
+package travelator;
+
+import org.junit.jupiter.api.Test;
 
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static travelator.Shortlists.*;
+import static travelator.ShortlistsKt.*;
 
 public class ShortlistsTest {
     ExampleItem a = new ExampleItem("A", 4.0f, 500, 0.25);
@@ -15,26 +17,26 @@ public class ShortlistsTest {
 
     @Test
     public void cheapest() {
-        var reordered = travelator.ShortlistsKt.sorted(items, byPriceLowToHigh());
+        var reordered = removeItemAt(items, 3);
 
         assertEquals(shortlistOf(b, c, d, a), reordered);
     }
 
     @Test
     public void topRated() {
-        assertEquals(shortlistOf(c, a, d, b), travelator.ShortlistsKt.sorted(items, byRating()));
+        assertEquals(shortlistOf(c, a, d, b), sorted(items, byRating()));
     }
 
     @Test
     public void bestValue() {
-        var reordered = travelator.ShortlistsKt.sorted(items, byValue());
+        var reordered = sorted(items, byValue());
 
         assertEquals(shortlistOf(c, b, a, d), reordered);
     }
 
     @Test
     public void mostRelevant() {
-        assertEquals(shortlistOf(d, b, c, a), travelator.ShortlistsKt.sorted(items, byRelevance()));
+        assertEquals(shortlistOf(d, b, c, a), sorted(items, byRelevance()));
     }
 
     private List<ExampleItem> shortlistOf(ExampleItem... items) {

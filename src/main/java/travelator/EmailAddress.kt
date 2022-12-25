@@ -1,5 +1,6 @@
 package travelator
 
+import java.lang.IllegalArgumentException
 import java.util.*
 
 data class EmailAddress(
@@ -14,13 +15,18 @@ data class EmailAddress(
     companion object {
         @JvmStatic
         fun parse(value: String): EmailAddress {
-            require(!(value.lastIndexOf('@') < 1 || value.lastIndexOf('@') == value.length - 1)) {
-                "EmailAddress must be two parts separated by @"
-            }
-            return EmailAddress(
-                value.substring(0, value.lastIndexOf('@')),
-                value.substring(value.lastIndexOf('@') + 1)
-            )
+            return emailAddress(value, value.lastIndexOf('@'))
         }
+
+        private fun emailAddress(value: String, atIndex: Int): EmailAddress =
+            when { atIndex < 1 || atIndex == value.length - 1 ->
+                throw IllegalArgumentException(
+                    "EmailAddress must be two parts separated by @"
+                )
+            else -> EmailAddress(
+                    value.substring(0, atIndex),
+                    value.substring(atIndex + 1)
+                )
+            }
     }
 }

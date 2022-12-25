@@ -15,18 +15,15 @@ data class EmailAddress(
     companion object {
         @JvmStatic
         fun parse(value: String): EmailAddress {
-            return emailAddress(value, value.lastIndexOf('@'))
-        }
-
-        private fun emailAddress(value: String, atIndex: Int): EmailAddress =
-            when { atIndex < 1 || atIndex == value.length - 1 ->
-                throw IllegalArgumentException(
+            value.lastIndexOf('@').let { atIndex ->
+                require(!(atIndex < 1 || atIndex == value.length - 1)) {
                     "EmailAddress must be two parts separated by @"
-                )
-            else -> EmailAddress(
+                }
+                return EmailAddress(
                     value.substring(0, atIndex),
                     value.substring(atIndex + 1)
                 )
             }
+        }
     }
 }

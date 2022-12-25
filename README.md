@@ -54,7 +54,7 @@
 - `asSequence()`
 - `@file:JvmName`
 - [`kotlinlang` constructors](https://kotlinlang.org/docs/classes.html#constructors)
-
+- `data class`는 `static` 함수를 포함할 수 없나?
 
 ***
 
@@ -384,15 +384,67 @@ JVM에서는 이런 함수를 둘 곳이 없으므로 **코틀린 컴파일러�
 이 세 가지가 모두 같다면 기본적으로 최상위 함수를 사용해야 할 것이다.    
 - `MyType.of()`와 같은 팩토리 메소드는 동반 객체의 메서드로 함수를 정의해야 한다.
 
-## [`@file:JvmName("Shortlists")`](https://github.com/jdalma/java-to-kotlin/commit/09af98a03d8dfa2e390ef51286dd60aff983f4c9#diff-1044d609b913915ee4faa6e813de12d2a57582f596a0c236f2cce3d5eb03c23c)
-**`import travelator.Shortlists.{method}` 이 형식으로 코틀린에서 코틀린으로 정의된 최상위 함수를 임포트할 수 없다.**
-- 코틀린의 입장에서 이 함수들은 패키지 안의 클래스 안에 정의되어 있지 않기 때문이다.
-- 코틀린 코드 컴파일 시점에 JVM에 `Shortlists`라는 클래스 안에 있는 정적 함수들을 알 수 없기 때문이다
+1. [`@file:JvmName("Shortlists")`](https://github.com/jdalma/java-to-kotlin/commit/09af98a03d8dfa2e390ef51286dd60aff983f4c9#diff-1044d609b913915ee4faa6e813de12d2a57582f596a0c236f2cce3d5eb03c23c)
+   - **`import travelator.Shortlists.{method}` 이 형식으로 코틀린에서 코틀린으로 정의된 최상위 함수를 임포트할 수 없다.**
+   - 코틀린의 입장에서 이 함수들은 패키지 안의 클래스 안에 정의되어 있지 않기 때문이다.
+   - 코틀린 코드 컴파일 시점에 JVM에 `Shortlists`라는 클래스 안에 있는 정적 함수들을 알 수 없기 때문이다
+   - 코틀린에서는 **`import travelator.{method}`** 이 형식으로 import 해야한다.
 
-코틀린에서는 **`import travelator.{method}`** 이 형식으로 import 해야한다.
+2. [`@JvmStatic`](https://github.com/jdalma/java-to-kotlin/commit/af61681c5e7b5847d16d653c3ac2ad48cce142f4)
 
-## [`@JvmStatic`]()
+3. [확장 함수로 변경](https://github.com/jdalma/java-to-kotlin/commit/e37139c4a733d79b61a250d80193d42d3a3b81e0#diff-1ffa997ca85179e20133c106e675d8ac5089c6e412ed5e5e480237295dc8e830)
 
-## 질문
+***
 
-1.
+# **9장. 문에서 식으로 (다중식 함수에서 단일식 함수로)**
+
+> 단일식 함수를 언제, 왜 사용하는지 알아보고 어떤 코틀린 기능이 사용될까?  
+> **단일식 함수를 계산에만 사용하라**  
+
+식은 **선언적**이다.  
+즉, 함수가 계산하는 값이 **무엇인지**선언하며 코틀린 컴파일러나 런타임 시스템이 그 게산을 수행하는 **방법**을 결정하도록 한다.  
+코틀린에서는 대입이 문이지 식이 아니다.
+
+1. [**Take 1 : 인라이닝**](https://github.com/jdalma/java-to-kotlin/commit/8cdfec4df37aaafccefe62451148298aacc8dc25)
+   - `atIndex` 대입문을 인라이닝화
+2. [**Take 2 : 새 함수 도입하기**](https://github.com/jdalma/java-to-kotlin/commit/64aa6db38a45ff2cbbf790bac36bcb4b9b289a6f) 
+   - `emailAddress()` 함수로 추출
+   - `parse()`는 단일식이 되었다.
+   - `require`을 인라이닝하여 `when`을 사용해보자
+3. [**Take 3 : `let`**](https://github.com/jdalma/java-to-kotlin/commit/5a6dc4a75c08bb685c5e9ddd5b4f573fa9f8802f)
+   - Take 2에서 함수를 추출했던 이유는 `atIndex`값을 따로 지역 변수에 저장하지 않아도 블록 영역안에서 해당 값을 참조하고 싶어서였다.
+   - 여기서 필요한 값이 하나뿐이기 때문에 `let`블록을 사용하면 함수를 정의하지 않아도 이런 영역을 만들 수 있다.
+   - ```kotlin
+     // [1] 이렇게 하면 let블록안에서 atIndex 지역변수를 가리킨다
+     val atIndex = value.lastIndexOf('@')
+     atIndex.let{
+         // ...
+     }
+    
+     // [2] 이렇게 람다 파라미터로 같은 이름을 지정하면 지역변수 대신 람다 파라미터 값을 쓰게 된다 
+     atIndex.let{ atIndex -> 
+         // ...
+     }
+    
+     // [3] atIndex 지역 변수 인라이닝
+     value.lastIndexOf('@').let { atIndex ->
+         // ...
+     }
+     ```
+
+4. [**Take 4 : 확장 함수 추가**](https://github.com/jdalma/java-to-kotlin/commit/52e42b38f2a5dac7376c3e604c035947da3aab4a)
+   - 다시 처음으로 돌아가서 `atIndex`에 집중하지말고 `substring` 부분에 집중해보자
+   - `split()` 함수를 최상위 함수로 추가
+
+
+> **`parse()`가 무엇을 반환해야 할까?**  
+> `parse()`에서 오류가 발생했을 때 예외를 던지지 않으면 리팩토링이 훨씬 더 쉬워진다는 점을 알아두자  
+> `throw`는 `Nothing`을 반환하는 식이다. (Nothing은 함수나 식 계산이 값으로 끝나지 않는다는 사실을 드러낸다)    
+> `EmailAddress?`를 반환하게 해서 실패시 null을 돌려주게 해도 될 것이다.  
+> 하지만 이런 방식은 자바 클라이언트와 잘 들어맞지 않는다.  
+> **자바에서는 타입 시스템이 널 가능성에 대해 경고해 주지 못하기 때문이다.**  
+> 자바 클라이언트가 사라지면 예외를 던지는 부분을 제거해도 될 것이다.
+
+함수를 단일식으로 표현하려고 노력하는 것은 잘 구분된 깔끔한 코드를 이끌어 주는 좋은 규범이 될 수 있다.  
+**단일식 형태를 얻기 위해 보통 하위식을 별도의 함수로 분리한다.**  
+함수 결과를 기술하는 식은 `컴퓨터가 결과를 얻기 위해 수행해야 하는 동작보다는 함수 파라미터를 기반으로 기술된다.`  

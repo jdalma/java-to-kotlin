@@ -1,8 +1,5 @@
 package travelator
 
-import java.lang.IllegalArgumentException
-import java.util.*
-
 data class EmailAddress(
     val localPart: String,
     val domain: String
@@ -15,15 +12,19 @@ data class EmailAddress(
     companion object {
         @JvmStatic
         fun parse(value: String): EmailAddress {
-            value.lastIndexOf('@').let { atIndex ->
-                require(!(atIndex < 1 || atIndex == value.length - 1)) {
-                    "EmailAddress must be two parts separated by @"
-                }
-                return EmailAddress(
-                    value.substring(0, atIndex),
-                    value.substring(atIndex + 1)
-                )
+            value.splitAroundLast('@').let { (leftPart, rightPart)->
+                return EmailAddress(leftPart, rightPart)
             }
         }
     }
+}
+
+private fun String.splitAroundLast(divider: Char): Pair<String, String> {
+    val atIndex = lastIndexOf(divider)
+    require(!(atIndex < 1 || atIndex == length - 1)) {
+        "EmailAddress must be two parts separated by @"
+    }
+    val leftPart = substring(0, atIndex)
+    val rightPart = substring(atIndex + 1)
+    return Pair(leftPart, rightPart)
 }

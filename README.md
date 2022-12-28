@@ -55,6 +55,8 @@
 - `@file:JvmName`
 - [`kotlinlang` constructors](https://kotlinlang.org/docs/classes.html#constructors)
 - `data class`는 `static` 함수를 포함할 수 없나?
+  - `private`필드는 `getter`가 생성되지 않는다.
+  - 필드에 대입만해도 코틀린 컴파일러가 해당 필드의 `setter`를 호출한다
 
 ***
 

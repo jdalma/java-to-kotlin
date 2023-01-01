@@ -28,12 +28,13 @@ private constructor(
         return "$amount ${currency.currencyCode}"
     }
 
-    @JvmName("add")
+    fun add(that: Money) = this + that
+
     operator fun plus(that: Money): Money {
-        require(this.currency == that.currency) {
+        require(currency == that.currency) {
             "cannot add Money values of different currencies"
         }
-        return Money(this.amount.add(that.amount), this.currency);
+        return Money(amount.add(that.amount), currency)
     }
 
     companion object {

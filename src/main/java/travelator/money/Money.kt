@@ -28,7 +28,8 @@ private constructor(
         return "$amount ${currency.currencyCode}"
     }
 
-    fun add(that: Money): Money {
+    @JvmName("add")
+    operator fun plus(that: Money): Money {
         require(this.currency == that.currency) {
             "cannot add Money values of different currencies"
         }
@@ -37,11 +38,21 @@ private constructor(
 
     companion object {
         @JvmStatic
-        fun of(amount: BigDecimal, currency: Currency): Money {
-            return Money(
-                amount.setScale(currency.defaultFractionDigits),
-                currency
-            )
-        }
+        fun of(amount: BigDecimal, currency: Currency) = Money(
+            amount.setScale(currency.defaultFractionDigits),
+            currency
+        )
+
+        @JvmStatic
+        fun of(amountStr: String, currency: Currency) =
+            of(BigDecimal(amountStr), currency)
+
+        @JvmStatic
+        fun of(amount: Int, currency: Currency) =
+            of(BigDecimal(amount), currency)
+
+        @JvmStatic
+        fun zero(userCurrency: Currency) =
+            of(BigDecimal.ZERO, userCurrency)
     }
 }

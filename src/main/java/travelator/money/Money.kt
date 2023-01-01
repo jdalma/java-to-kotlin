@@ -39,10 +39,14 @@ private constructor(
 
     companion object {
         @JvmStatic
-        fun of(amount: BigDecimal, currency: Currency) = Money(
-            amount.setScale(currency.defaultFractionDigits),
-            currency
-        )
+        fun of(amount: BigDecimal, currency: Currency) =
+            this(amount, currency)
+
+        operator fun invoke(amount: BigDecimal, currency: Currency) =
+            Money(
+                amount.setScale(currency.defaultFractionDigits),
+                currency
+            )
 
         @JvmStatic
         fun of(amountStr: String, currency: Currency) =

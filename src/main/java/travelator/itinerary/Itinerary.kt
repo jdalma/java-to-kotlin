@@ -1,8 +1,5 @@
 import travelator.Id
-import travelator.itinerary.Accommodation
-import travelator.itinerary.CostSummaryCalculator
-import travelator.itinerary.Route
-import travelator.itinerary.addCostsTo
+import travelator.itinerary.*
 
 // 1. 여정을 한 개
 // 2. 여정에 포함하는 List<Journey> 여러 개의 여행, 각 Journey마다 일반 비용
@@ -18,14 +15,14 @@ data class Itinerary(
     val accommodations: List<Accommodation> = emptyList()
 ) {
 
-    fun addCostsTo(calculator: CostSummaryCalculator) {
+    fun addCostsTo(calculator: CostSummaryCalculatorRefactoring) {
         route.addCostsTo(calculator)
         accommodations.addCostsTo(calculator)
     }
 
 }
 
-fun Iterable<Accommodation>.addCostsTo(calculator: CostSummaryCalculator) {
+fun Iterable<Accommodation>.addCostsTo(calculator: CostSummaryCalculatorRefactoring) {
     forEach { a ->
         a.addCostsTo(calculator)
     }

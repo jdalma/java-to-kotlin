@@ -7,6 +7,6 @@ data class Accommodation(
     // and other fields...
 )
 
-fun Accommodation.addCostsTo(calculator: CostSummaryCalculator) {
+fun Accommodation.addCostsTo(calculator: CostSummaryCalculatorRefactoring) {
     calculator.addCost(totalPrice)
 }

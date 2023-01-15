@@ -3,7 +3,7 @@ import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertThrows
 import org.junit.jupiter.api.Test
 import travelator.money.Currencies.*
-import travelator.money.Money
+import travelator.itinerary.money.Money
 
 class MoneyTest {
     @Test

@@ -15,14 +15,15 @@ class CostSummaryCalculatorRefactoring(
         currencyTotals.merge(cost.currency, cost, Money::add)
     }
 
-    fun summaries() : CostSummary {
-        val totals = ArrayList(currencyTotals.values)
-        totals.sortWith(comparing {m : Money -> m.currency.currencyCode})
-        val summary = CostSummary(userCurrency)
-        for (total in totals) {
-            summary.addLine(exchangeRates.convert(total, userCurrency))
+    fun summaries() : CostSummaryRefactoring {
+        val totals = currencyTotals.values.sortedBy {
+            it.currency.currencyCode
         }
-        return summary
+        return CostSummaryRefactoring(userCurrency).apply {
+            for (total in totals) {
+                addLine(exchangeRates.convert(total, userCurrency))
+            }
+        }
     }
 
     fun reset() {

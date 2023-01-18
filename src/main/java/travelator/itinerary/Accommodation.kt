@@ -7,6 +7,4 @@ data class Accommodation(
     // and other fields...
 )
 
-fun Accommodation.addCostsTo(calculator: CostSummaryCalculatorRefactoring) {
-    calculator.addCost(totalPrice)
-}
+fun Accommodation.costs() = listOf(totalPrice)

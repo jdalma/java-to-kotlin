@@ -57,6 +57,7 @@
 - `data class`는 `static` 함수를 포함할 수 없나?
   - `private`필드는 `getter`가 생성되지 않는다.
   - 필드에 대입만해도 코틀린 컴파일러가 해당 필드의 `setter`를 호출한다
+- 필드 뒤에 `private set`키워드를 추가한다면 `getter`만 노출된다
 
 ***
 
@@ -530,3 +531,15 @@ fun averageNonBlankLength(strings: List<String>): Double =
 # **14장. 누적시키는 객체에서 변환으로**
 
 > 가변 객체와 부수 효과에 의존하는 자바 코드를 불변 값을 변환하는 코틀린 코드로 바꾸는 가장 좋은 방법이 무엇일까?  
+
+
+`CostSummary`와 `CostSummaryCalculator` 위주로 계산을 **가변 클래스에서 불변 데이터에 대해 작용하는 함수로 리팩토링해 보자**  
+`CostSummary`를 불변 값 타입으로 만드는 것 부터 시작해서, `CostSummaryCalculator`까지 적용할 것이다.
+
+1. [기준](https://github.com/jdalma/java-to-kotlin/commit/41b452d66ce7ed8fa89ee3d8378116cbccd38f80)
+2. [제자리 정렬 수정, `apply` 적용해서 클라이언트가 객체 내부 필드를 추가하였다](https://github.com/jdalma/java-to-kotlin/commit/b824bb8e1fd0a366c9d4499d1a98e9c642db3e3c)
+3. [부생성자 추가 및 `apply` 제거로 인해 객체 생성에 대한 책임은 스스로가 가지게 했다]()
+4. [`fold`를 이용해 모두 불변 필드로 만들었다.](https://github.com/jdalma/java-to-kotlin/commit/95e1ac530589308d1400c868b5bb86985e3538d7)
+5. [`data class`로 변경](https://github.com/jdalma/java-to-kotlin/commit/f9845e1a93628fc15c97df18535543080f6d3bf1)
+   - 이 예제에서 `CostSummary`의 내부 필드를 계산기에서 다 계산하고 값을 전달해준다.
+   - `CostSummary` 생성자에서 필요한 값을 받아 `CostSummary`가 직접 계산을 하여 스스로를 생성하여야 한다.

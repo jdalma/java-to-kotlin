@@ -1,5 +1,6 @@
 import travelator.Id
 import travelator.itinerary.*
+import travelator.itinerary.money.Money
 
 // 1. 여정을 한 개
 // 2. 여정에 포함하는 List<Journey> 여러 개의 여행, 각 Journey마다 일반 비용
@@ -15,15 +16,8 @@ data class Itinerary(
     val accommodations: List<Accommodation> = emptyList()
 ) {
 
-    fun addCostsTo(calculator: CostSummaryCalculatorRefactoring) {
-        route.addCostsTo(calculator)
-        accommodations.addCostsTo(calculator)
-    }
+    fun costs(): List<Money> = route.costs() + accommodations.costs()
 
 }
 
-fun Iterable<Accommodation>.addCostsTo(calculator: CostSummaryCalculatorRefactoring) {
-    forEach { a ->
-        a.addCostsTo(calculator)
-    }
-}
+fun Iterable<Accommodation>.costs(): List<Money> = flatMap { it.costs() }

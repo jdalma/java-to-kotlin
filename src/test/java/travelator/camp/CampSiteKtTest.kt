@@ -2,6 +2,9 @@ package travelator.camp
 
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.Test
+import travelator.itinerary.money.EUR
+import travelator.itinerary.money.Money
+import travelator.itinerary.sumOrNull
 
 class CampSiteKtTest {
 

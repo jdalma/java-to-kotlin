@@ -20,12 +20,9 @@ class Itinerary_CostTest {
             )
         )
     private val userCurrency: Currency = GBP
-    private val calculator = CostSummaryCalculatorRefactoring(userCurrency, fx) // <1>
+    private val calculator = PricingContext(userCurrency, fx) // <1>
 
-    private fun costSummary(i: Itinerary): CostSummaryRefactoring {
-        i.addCostsTo(calculator) // <2>
-        return calculator.summaries() // <3>
-    }
+    private fun costSummary(i: Itinerary) = calculator.summarise(i.costs())
 
     @Test
     fun an_empty_route_costs_nothing() {

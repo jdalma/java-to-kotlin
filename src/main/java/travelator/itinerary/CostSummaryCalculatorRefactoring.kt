@@ -16,11 +16,15 @@ class CostSummaryCalculatorRefactoring(
     }
 
     fun summaries() : CostSummaryRefactoring {
-        val conversions = currencyTotals.values.sortedBy {
-            it.currency.currencyCode
-        }.map { exchangeRates.convert(it, userCurrency) }
+        val lines = currencyTotals.values
+            .sortedBy { it.currency.currencyCode }
+            .map { exchangeRates.convert(it, userCurrency) }
 
-        return CostSummaryRefactoring(userCurrency, conversions)
+        val total = lines
+            .map { it.toMoney }
+            .fold(Money.of(0, userCurrency) , Money::add)
+
+        return CostSummaryRefactoring(lines, total)
     }
 
     fun reset() {

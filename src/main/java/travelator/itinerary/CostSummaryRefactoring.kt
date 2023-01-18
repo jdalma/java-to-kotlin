@@ -12,6 +12,13 @@ class CostSummaryRefactoring(userCurrency :Currency) {
 
     val lines: List<CurrencyConversion> get() = _lines.toList()
 
+    constructor(
+        userCurrency: Currency,
+        lines: List<CurrencyConversion>
+    ) : this(userCurrency) {
+        lines.forEach(this::addLine)
+    }
+
     fun addLine(line: CurrencyConversion) {
         _lines.add(line)
         total += line.toMoney

@@ -4,24 +4,11 @@ import travelator.itinerary.money.CurrencyConversion
 import travelator.itinerary.money.Money
 import java.util.Currency
 
-class CostSummaryRefactoring(userCurrency :Currency) {
-    private val _lines = mutableListOf<CurrencyConversion>()
-
-    var total: Money = Money.of(0, userCurrency)
-        private set
-
-    val lines: List<CurrencyConversion> get() = _lines.toList()
-
-    constructor(
-        userCurrency: Currency,
-        lines: List<CurrencyConversion>
-    ) : this(userCurrency) {
-        lines.forEach(this::addLine)
-    }
-
-    fun addLine(line: CurrencyConversion) {
-        _lines.add(line)
-        total += line.toMoney
-    }
-
+class CostSummaryRefactoring(
+    userCurrency :Currency,
+    private val lines: List<CurrencyConversion>
+) {
+    val total = lines
+        .map { it.toMoney }
+        .fold(Money.of(0, userCurrency), Money::add)
 }

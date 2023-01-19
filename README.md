@@ -58,6 +58,7 @@
   - `private`필드는 `getter`가 생성되지 않는다.
   - 필드에 대입만해도 코틀린 컴파일러가 해당 필드의 `setter`를 호출한다
 - 필드 뒤에 `private set`키워드를 추가한다면 `getter`만 노출된다
+- `runCatching...onFailure`와 `try...catch`의 차이점
 
 ***
 

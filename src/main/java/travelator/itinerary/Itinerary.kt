@@ -1,3 +1,4 @@
+import chapter15.travelator.itinerary.Accommodation
 import travelator.Id
 import travelator.itinerary.*
 import travelator.itinerary.money.Money

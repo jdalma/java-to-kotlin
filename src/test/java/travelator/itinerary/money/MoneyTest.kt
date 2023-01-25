@@ -1,9 +1,9 @@
-package travelator.money
+package travelator.itinerary.money
 
+import chapter15.travelator.money.Money
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertThrows
 import org.junit.jupiter.api.Test
-import travelator.itinerary.money.*
 
 class MoneyTest {
     @Test

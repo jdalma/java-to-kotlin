@@ -1,4 +1,4 @@
-package travelator.money
+package chapter15.travelator.money
 
 import java.math.BigDecimal
 import java.util.*

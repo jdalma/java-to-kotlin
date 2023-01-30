@@ -1,6 +1,5 @@
 package travelator.itinerary
 
-import chapter15.travelator.itinerary.Accommodation
 import travelator.itinerary.money.Money
 
 data class Accommodation(

@@ -6,9 +6,8 @@ import chapter16.travelator.domain.DistanceCalculator
 import chapter16.travelator.domain.Location
 
 class Recommendations(
-    private val distanceCalculator: DistanceCalculator,
-    // 인터페이스에서 findCloseTo() 함수 추출
-    private val destinationFinder: (Location) -> List<FeaturedDestination>
+    private val destinationFinder: (Location) -> List<FeaturedDestination>,
+    private val distanceInMetersBetween: (Location, Location) -> Int
 ) {
 
     fun recommendationsFor(
@@ -19,7 +18,7 @@ class Recommendations(
             .deduplicated()
             .sortedBy { it.distanceMeters }
 
-    private fun recommendationsFor(
+    fun recommendationsFor(
         location: Location
     ): List<FeaturedDestinationSuggestion> =
         destinationFinder(location)
@@ -27,7 +26,7 @@ class Recommendations(
                 FeaturedDestinationSuggestion(
                     location,
                     featuredDestination,
-                    distanceCalculator.distanceInMetersBetween(
+                    distanceInMetersBetween( // <1>
                         location,
                         featuredDestination.location
                     )

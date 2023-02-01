@@ -106,7 +106,7 @@ private fun subjectFor(
 private fun check(
     featuredDestinations: Map<Location, List<FeaturedDestination>>,
     distances: Map<Pair<Location, Location>, Int>,
-    recommendations: kotlin.collections.Set<Location>,
+    recommendations: Set<Location>,
     shouldReturn: List<FeaturedDestinationSuggestion>
 ) {
     assertEquals(
@@ -118,7 +118,7 @@ private fun check(
 private fun resultFor(
     featuredDestinations: Map<Location, List<FeaturedDestination>>,
     distances: Map<Pair<Location, Location>, Int>,
-    locations: kotlin.collections.Set<Location>
+    locations: Set<Location>
 ): List<FeaturedDestinationSuggestion> {
     val subject = subjectFor(featuredDestinations, distances)
     return subject.recommendationsFor(locations)

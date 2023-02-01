@@ -2,7 +2,7 @@ package chapter18.travelator
 
 import java.util.*
 
-data class Id<out T> constructor(private val raw: String) {
+data class Id<out T> constructor(val raw: String) {
     override fun toString(): String {
         return raw
     }

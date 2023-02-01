@@ -1,6 +1,8 @@
-import chapter18.travelator.Id
+package travelator.itinerary
+
 import chapter18.travelator.itinerary.Accommodation
-import travelator.itinerary.*
+import chapter18.travelator.itinerary.Itinerary
+import travelator.Id
 import travelator.itinerary.money.Money
 
 // 1. 여정을 한 개
@@ -17,8 +19,8 @@ data class Itinerary(
     val accommodations: List<Accommodation> = emptyList()
 ) {
 
-    fun costs(): List<Money> = route.costs() + accommodations.costs()
+    fun costs(): List<Money> = TODO()
 
 }
 
-fun Iterable<Accommodation>.costs(): List<Money> = flatMap { it.costs() }
+//fun Iterable<Accommodation>.costs(): List<Money> = flatMap { it.costs() }

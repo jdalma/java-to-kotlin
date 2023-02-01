@@ -2,6 +2,8 @@ package chapter18.travelator.itinerary
 
 import chapter18.travelator.Id
 import chapter18.travelator.geo.OverlayGroup
+import chapter18.travelator.geo.mapOverlay
+
 
 data class Itinerary(
     val id: Id<Itinerary>,
@@ -11,7 +13,10 @@ data class Itinerary(
 val Itinerary.mapOverlay
     get() = OverlayGroup(
         id = id,
-        elements = items.map { it.mapOverlay })
+        elements = items.map {
+            it.mapOverlay
+        }
+    )
 
 val Itinerary.costs
     get() = flatMap(ItineraryItem::costs)

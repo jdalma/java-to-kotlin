@@ -1,4 +1,4 @@
-package chapter16.travelator;
+package chapter17.travelator;
 
 import java.util.Objects;
 import java.util.UUID;

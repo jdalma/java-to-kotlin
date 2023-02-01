@@ -1,8 +1,8 @@
-package chapter16.travelator.recommendations;
+package chapter17.travelator.recommendations;
 
-import chapter16.travelator.destinations.FeaturedDestinations;
-import chapter16.travelator.domain.DistanceCalculator;
-import chapter16.travelator.domain.Location;
+import chapter17.travelator.destinations.FeaturedDestinations;
+import chapter17.travelator.domain.DistanceCalculator;
+import chapter17.travelator.domain.Location;
 
 import java.util.Comparator;
 import java.util.List;

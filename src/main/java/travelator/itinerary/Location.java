@@ -1,15 +1,15 @@
 package travelator.itinerary;
 
-import travelator.Id;
+import chapter18.travelator.Id;
 
 import java.util.Objects;
 
 public class Location {
-    private final travelator.Id<Location> id;
+    private final Id<Location> id;
     private final String localName;
     private final String userReadableName;
 
-    public Location(travelator.Id<Location> id, String localName, String userReadableName) {
+    public Location(Id<Location> id, String localName, String userReadableName) {
         this.id = id;
         this.localName = localName;
         this.userReadableName = userReadableName;

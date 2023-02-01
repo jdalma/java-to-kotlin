@@ -1,6 +1,6 @@
-package chapter16.travelator.destinations;
+package chapter17.travelator.destinations;
 
-import chapter16.travelator.domain.Location;
+import chapter17.travelator.domain.Location;
 
 import java.util.List;
 

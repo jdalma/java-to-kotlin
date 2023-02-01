@@ -1,4 +1,4 @@
-package chapter16.travelator.domain
+package chapter17.travelator.domain
 
 interface DistanceCalculator {
     fun distanceInMetersBetween(

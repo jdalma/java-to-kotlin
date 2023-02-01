@@ -1,6 +1,6 @@
 package chapter15.travelator.itinerary
 
-import travelator.Id
+import chapter18.travelator.Id
 import java.time.Duration
 
 data class Itinerary(

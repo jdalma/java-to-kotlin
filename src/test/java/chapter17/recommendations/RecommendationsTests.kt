@@ -1,14 +1,12 @@
-package chapter16.recommendations
+package chapter17.recommendations
 
-import chapter16.travelator.Id
-import chapter16.travelator.destinations.FeaturedDestination
-import chapter16.travelator.domain.Location
-import chapter16.travelator.recommendations.FeaturedDestinationSuggestion
-import chapter16.travelator.recommendations.Recommendations
-import org.junit.jupiter.api.Assertions
+import chapter17.travelator.Id
+import chapter17.travelator.destinations.FeaturedDestination
+import chapter17.travelator.domain.Location
+import chapter17.travelator.recommendations.FeaturedDestinationSuggestion
+import chapter17.travelator.recommendations.Recommendations
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
-import java.util.Set
 
 class RecommendationsTests {
     companion object {

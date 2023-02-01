@@ -1,6 +1,6 @@
-package chapter16.travelator.domain;
+package chapter17.travelator.domain;
 
-import chapter16.travelator.Id;
+import chapter17.travelator.Id;
 
 import java.util.Objects;
 

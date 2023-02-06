@@ -774,7 +774,8 @@ data class Left<out R>(val r: R) : Either<Nothing, R>()
   
 ## **예외를 오류로 리팩토링하기**  
 
-1. [시작]()
+1. [시작](https://github.com/jdalma/java-to-kotlin/commit/dd8d0233897776d81ed916af8efc7c748096d9f8)
+
 
 **질문**  
 1. "우리는 자바에서 검사 예외를 던지도록 선언했던 모든 메서드가 `Either`를 반환하게 만든다." 398p

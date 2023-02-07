@@ -61,7 +61,8 @@
 - `by` 키워드
   - 생성자 인자로 받은 객체의 인터페이스 모든 메서드를 전달한다고 선언하는 것
 - `runCatching...onFailure`와 `try...catch`의 차이점
-- `sealed class`
+- `@Throws`
+  - 코틀린은 체크 예외를 제공하지 않지만, 이 애너테이션을 사용하여 바이트 코드로 생성되는 메서드 시그니처에 예외를 추가해서 자바와의 상호 운용할 수 있다.
 
 ***
 
@@ -774,15 +775,16 @@ data class Left<out R>(val r: R) : Either<Nothing, R>()
   
 ## **예외를 오류로 리팩토링하기**  
 
+
 1. [시작](https://github.com/jdalma/java-to-kotlin/commit/dd8d0233897776d81ed916af8efc7c748096d9f8)
+2. [Result4K 적용](https://github.com/jdalma/java-to-kotlin/commit/d39d490040b34bccc3e58f6ab96179c02ba206ff)
+   - 코드를 그냥 코틀린으로 변환하면, 체크 예외의 장점을 읽어버리게 된다.
+   - 따라서 예외 기반의 오류 처리를 Result4k를 사용한 함수형 대안으로 치환할 것이다.
 
-
+> 1. **if**를 **when**으로 치환하기
+> 2. 반환문을 **when**식으로 치환하기
+> 3. 모든 **when**가지에서 중괄호 제거하기
+  
 **질문**  
-1. "우리는 자바에서 검사 예외를 던지도록 선언했던 모든 메서드가 `Either`를 반환하게 만든다." 398p
-   - 참조 투명성을 지키기 위해 특정 함수의 반환 값과 예외 타입을 추상화한 상황
-
-
-
-
-
-
+1. "IOException을 조용히 삼켜 버리고 그 대신 나중에 RuntimeExceptions을 발생시킨다" 404p
+   - 커스텀 예외가 체계적인 연결 문제를 드러내거나 저수준 코드에서 NPE가 발생한다는 사실을 감출수도 있기 때문이다

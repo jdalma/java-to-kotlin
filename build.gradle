@@ -17,6 +17,9 @@ dependencies {
     implementation group: 'com.scurrilous', name: 'uritemplate', version: '1.0'
     compileOnly group: 'javax', name: 'javaee-api', version: '6.0'
 
+    implementation(platform("dev.forkhandles:forkhandles-bom:1.8.4.0"))
+    implementation("dev.forkhandles:result4k")
+
     implementation 'org.mockito:mockito-core:5.1.0'
     testImplementation "org.jetbrains.kotlin:kotlin-test"
     testImplementation 'org.junit.jupiter:junit-jupiter-api:5.9.0'

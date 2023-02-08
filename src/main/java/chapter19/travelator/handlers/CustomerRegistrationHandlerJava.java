@@ -11,12 +11,12 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 import static java.net.HttpURLConnection.*;
 
-public class CustomerRegistrationHandler {
+public class CustomerRegistrationHandlerJava {
 
-    private final IRegisterCustomers registration;
+    private final CustomerRegistrationHandlerJava registration;
     private final ObjectMapper objectMapper = new ObjectMapper();
 
-    public CustomerRegistrationHandler(IRegisterCustomers registration) {
+    public CustomerRegistrationHandlerJava(CustomerRegistrationHandlerJava registration) {
         this.registration = registration;
     }
 
@@ -26,16 +26,12 @@ public class CustomerRegistrationHandler {
                 request.getBody(),
                 RegistrationData.class
             );
-            Customer customer = registration.register(data);
+//            Customer customer = registration.registerToo(data);
             return new Response(HTTP_CREATED,
-                objectMapper.writeValueAsString(customer)
+                objectMapper.writeValueAsString("test")
             );
         } catch (JsonProcessingException x) {
             return new Response(HTTP_BAD_REQUEST);
-        } catch (ExcludedException x) {
-            return new Response(HTTP_FORBIDDEN);
-        } catch (DuplicateException x) {
-            return new Response(HTTP_CONFLICT);
         } catch (Exception x) {
             return new Response(HTTP_INTERNAL_ERROR);
         }

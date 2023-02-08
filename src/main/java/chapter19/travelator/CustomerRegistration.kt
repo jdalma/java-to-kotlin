@@ -1,19 +1,28 @@
 package chapter19.travelator
 
 import chapter19.travelator.handlers.RegistrationData
-import dev.forkhandles.result4k.orThrow
-import kotlin.jvm.Throws
+import dev.forkhandles.result4k.*
 
-class CustomerRegistration (
+
+class CustomerRegistration(
     private val customers: Customers,
     private val exclusionList: ExclusionList
 ) : IRegisterCustomers {
 
-    @Throws(ExcludedException::class, DuplicateException::class)
-    override fun register(data: RegistrationData): Customer {
-        when {
-            (exclusionList.exclude(data)) -> throw DuplicateException()
-            else -> return customers.addToo(data.name, data.email).orThrow()
+    override fun register(
+        data: RegistrationData
+    ): Result<Customer, RegistrationProblem> {
+        return when {
+            exclusionList.exclude(data) -> Failure(Excluded)
+            else -> customers.add(data.name, data.email)
+                .mapFailure { problem: CustomersProblem ->
+                    when (problem) {
+                        is DuplicateCustomerProblem ->
+                            Duplicate(problem.message)
+                        is DatabaseCustomerProblem ->
+                            DatabaseProblem(problem.message)
+                    }
+                }
         }
     }
 }

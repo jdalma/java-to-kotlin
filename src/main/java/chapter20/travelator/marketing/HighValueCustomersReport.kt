@@ -1,20 +1,21 @@
 package chapter20.travelator.marketing
 
 import java.io.IOException
-import java.io.Reader
 import java.io.Writer
 
 @Throws(IOException::class)
-fun generate(reader: Reader, writer: Writer) {
-    val valuableCustomers = reader
-        .readLines()
+fun generate(writer: Writer, lines: List<String>) {
+
+    writer.append(generate(lines).joinToString("\n"))
+}
+
+fun generate(lines: List<String>) : List<String> {
+    val valuableCustomers = lines
         .toValuableCustomers()
         .sortedBy(CustomerData::score)
-    writer.appendLine("ID\tName\tSpend")
-    for (customerData in valuableCustomers) {
-        writer.appendLine(customerData.outputLine)
-    }
-    writer.append(valuableCustomers.summarised())
+    return listOf("\"ID\\tName\\tSpend\"") +
+            valuableCustomers.map (CustomerData::outputLine) +
+            valuableCustomers.summarised()
 }
 
 private fun List<String>.toValuableCustomers() = withoutHeader()

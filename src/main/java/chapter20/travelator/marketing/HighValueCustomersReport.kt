@@ -11,16 +11,13 @@ fun generate(writer: Writer, lines: List<String>) {
 
 fun generate(lines: List<String>) : List<String> {
     val valuableCustomers = lines
-        .toValuableCustomers()
+        .map(String::toCustomerData)
+        .filter { it.score >= 10 }
         .sortedBy(CustomerData::score)
     return listOf("\"ID\\tName\\tSpend\"") +
             valuableCustomers.map (CustomerData::outputLine) +
             valuableCustomers.summarised()
 }
-
-private fun List<String>.toValuableCustomers() = withoutHeader()
-    .map(String::toCustomerData)
-    .filter { it.score >= 10 }
 
 private fun List<String>.withoutHeader() = drop(1)
 

@@ -859,3 +859,17 @@ Left는 원래 R에는 관심도 없음
 
 I/O 동작의 부수효과가 미치는 영역을 지역 변수로 제한함으로써 이를 계산으로 변환할 수 있다.  
 **I/O 발생 장소를 프로그램 진입점에 가깝게 옮기면 옮길수록 쉽고 멋진 계산으로 처리할 수 있는 부분이 더 많아진다.**  
+  
+1. [시작 예제](https://github.com/jdalma/java-to-kotlin/commit/d64b0f352fcce59672616f0f724b9ae2c0769a59)
+2. [20.2 테스트 코드 코틀린으로 변환](https://github.com/jdalma/java-to-kotlin/commit/ec40b1c7c06ccb965fa8df2310d76531328f1045)
+3. [20.2 `generate()` 리팩토링](https://github.com/jdalma/java-to-kotlin/commit/02045565424f1da46e5ec0a070b7888f6ac3dbb8)
+   - `generate(reader: Reader, writer: Writer)` 기존에는 `writer`에 `reader`를 읽어들여 함수 내부에서 조작한다.
+   - **첫 번째.** `reader: Reader`를 `lines: List<String`으로 리팩토링
+   - **두 번째.** `generate()`함수를 `Writer`의 상태를 변경하는 대신 `List`를 반환하게 수정
+4. [20.2 확장 함수 `toValuableCustomers()` 리팩토링](https://github.com/jdalma/java-to-kotlin/commit/85b7bfe0adc176c1a6d6598243334f95d6fef533)
+   - 확장 함수 `toValuableCustomers()`는 `generate()` 내부로 흡수됐다.
+5. [20.3 중간 컬렉션 생성을 연기하기 위한 `Sequnece` 적용]()
+   - `in`또는 `out`을 **백틱**으로 감싸는 이유는 `in`이 키워드로 이미 존재해서 그런건가??
+   - 현재 전체 입력을 메모리에 읽어오고 처리한 후, 전체 출력을 메모리에 만들어서 `OutOfMemoryError`가 발생할 경우가 있다.
+   - `generate()` 함수를 확인해보면 `joinToString()`을 사용해 **거대한 문자열을 만들어냈다.** (이 시점에 출력의 각 줄과 이들을 합친 문자열이 동시에 메모리를 차지한다.)
+   - **메모리 부족을 피하려면 중간 컬렉션 생성을 연기하기 위해 `Sequence`를 사용해보자**

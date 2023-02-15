@@ -1,5 +1,6 @@
 package travelator.marketing;
 
+import chapter20.travelator.marketing.CustomerData;
 import org.junit.jupiter.api.Test;
 
 import java.io.IOException;

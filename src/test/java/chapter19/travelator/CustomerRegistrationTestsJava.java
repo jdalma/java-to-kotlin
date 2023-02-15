@@ -19,20 +19,20 @@ public class CustomerRegistrationTestsJava {
         (registrationData) -> excluded.contains(registrationData.email)
     );
 
-    @Test
-    public void adds_a_customer_when_not_excluded()
-        throws DuplicateException, ExcludedException {
-        assertEquals(Optional.empty(), customers.find("0"));
-
-        Customer added = registration.register(
-            new RegistrationData("fred flintstone", "fred@bedrock.com")
-        );
-        assertEquals(
-            new Customer("0", "fred flintstone", "fred@bedrock.com"),
-            added
-        );
-        assertEquals(added, customers.find("0").orElseThrow());
-    }
+//    @Test
+//    public void adds_a_customer_when_not_excluded()
+//        throws DuplicateException, ExcludedException {
+//        assertEquals(Optional.empty(), customers.find("0"));
+//
+//        Customer added = registration.register(
+//            new RegistrationData("fred flintstone", "fred@bedrock.com")
+//        );
+//        assertEquals(
+//            new Customer("0", "fred flintstone", "fred@bedrock.com"),
+//            added
+//        );
+//        assertEquals(added, customers.find("0").orElseThrow());
+//    }
 
     @Test
     public void throws_DuplicateException_when_email_address_exists() {

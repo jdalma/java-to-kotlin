@@ -18,7 +18,9 @@ fun generate(reader: Reader, writer: Writer) {
 }
 
 private fun List<String>.toValuableCustomers() = withoutHeader()
-    .map(String::toCustomerData)
+    .map {
+        it.toCustomerData()
+    }
     .filter { it.score >= 10 }
 
 private fun List<String>.withoutHeader() = drop(1)

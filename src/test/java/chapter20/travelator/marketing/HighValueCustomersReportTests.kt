@@ -54,29 +54,29 @@ class HighValueCustomersReportTests {
         val lines = listOf(
             "ID\tFirstName\tLastName\tScore\tSpend",
             "INVALID LINE",
-            "1\tFred\tFlintstone\t11\t1000.00"
+            "1\tFred\tFLINTSTONE\t11\t1000.00"
         )
 
-        val errorCollector = mutableListOf<String>()
+        val errorCollector = mutableListOf<ParseFailure>()
         val result = lines
             .asSequence()
             .constrainOnce()
-            .toHighValueCustomerReport { badLine ->
-                errorCollector += badLine
+            .toHighValueCustomerReport {
+                errorCollector += it
             }
             .toList()
 
         assertEquals(
             listOf(
                 "ID\tName\tSpend",
-                "1\tFred\tFlintstone, Fred\t1000.00",
+                "1\tFLINTSTONE, Fred\t1000.00",
                 "\tTOTAL\t1000.00"
             ),
             result
         )
 
         assertEquals(
-            listOf("INVALID LINE"),
+            listOf(NotEnoughFieldsFailure("INVALID LINE")),
             errorCollector
         )
     }

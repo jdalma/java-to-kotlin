@@ -16,7 +16,7 @@ fun main() {
 //            writer.appendLines(
 //                generate(reader.readLines().asSequence().constrainOnce())
 //            )
-            val errorLines = mutableListOf<String>()
+            val errorLines = mutableListOf<ParseFailure>()
             val reportLines = reader
                 .asLineSequence()
                 .toHighValueCustomerReport {
@@ -25,7 +25,9 @@ fun main() {
             if (errorLines.isNotEmpty()) {
                 System.err.writer().use {error ->
                     error.appendLine("Lines with errors")
-                    errorLines.asSequence().writeTo(error)
+                    errorLines.asSequence().map { parseFailure ->
+                        "${parseFailure::class.simpleName} in ${parseFailure.line}"
+                    }.writeTo(error)
                 }
                 exitProcess(-1)
             } else {

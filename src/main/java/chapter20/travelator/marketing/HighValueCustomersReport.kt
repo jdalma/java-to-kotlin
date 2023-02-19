@@ -1,17 +1,18 @@
 package chapter20.travelator.marketing
 
-import travelator.marketing.toCustomerData
+import dev.forkhandles.result4k.*
+import java.util.*
 
 fun Sequence<String>.toHighValueCustomerReport(
-    onErrorLine: (String) -> Unit = {}
+    onErrorLine: (ParseFailure) -> Unit = {}
 ): Sequence<String> {
     val valuableCustomers = this
         .withoutHeader()
         .map { line ->
-            val customerData = line.toCustomerData()
-            if (customerData == null)
-                onErrorLine(line)
-            customerData
+            line.toCustomerData().recover {
+                onErrorLine(it)
+                null
+            }
         }
         .filterNotNull()
         .filter { it.score >= 10 }
@@ -23,28 +24,37 @@ fun Sequence<String>.toHighValueCustomerReport(
 }
 
 private fun List<CustomerData>.summarised(): String =
-    sumByDouble { it.spend }.let { total ->
+    sumOf { it.spend }.let { total ->
         "\tTOTAL\t${total.toMoneyString()}"
     }
 
 private fun Sequence<String>.withoutHeader() = drop(1)
 
-internal fun String.toCustomerData(): CustomerData? =
+internal fun String.toCustomerData(): Result<CustomerData, ParseFailure> =
     split("\t").let { parts ->
         if (parts.size < 4)
-            return null
+            return Failure(NotEnoughFieldsFailure(this))
         val score = parts[3].toIntOrNull() ?:
-        return null
+            return Failure(ScoreIsNotAnIntFailure(this))
         val spend = if (parts.size == 4) 0.0 else parts[4].toDoubleOrNull() ?:
-        return null
-        CustomerData(
+            return Failure(SpendIsNotADoubleFailure(this))
+        Success(
+            CustomerData(
             id = parts[0],
             givenName = parts[1],
             familyName = parts[2],
             score = score,
             spend = spend
-        )
+        ))
     }
+
+sealed class ParseFailure(open val line: String)
+data class NotEnoughFieldsFailure(override val line: String) :
+    ParseFailure(line)
+data class ScoreIsNotAnIntFailure(override val line: String) :
+    ParseFailure(line)
+data class SpendIsNotADoubleFailure(override val line: String) :
+    ParseFailure(line)
 
 private val CustomerData.outputLine: String
     get() = "$id\t$marketingName\t${spend.toMoneyString()}"
@@ -54,4 +64,4 @@ private fun Double.toMoneyString() = this.formattedAs("%#.2f")
 private fun Any?.formattedAs(format: String) = String.format(format, this)
 
 private val CustomerData.marketingName: String
-    get() = "${familyName.toUpperCase()}, $givenName"
+    get() = "${familyName.uppercase(Locale.getDefault())}, $givenName"

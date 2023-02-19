@@ -1,37 +1,48 @@
 package chapter20.travelator.marketing
 
-import java.io.IOException
-import java.io.Writer
+import travelator.marketing.toCustomerData
 
-fun Sequence<String>.toHighValueCustomerReport() : Sequence<String> {
+fun Sequence<String>.toHighValueCustomerReport(
+    onErrorLine: (String) -> Unit = {}
+): Sequence<String> {
     val valuableCustomers = this
         .withoutHeader()
-        .map(String::toCustomerData)
+        .map { line ->
+            val customerData = line.toCustomerData()
+            if (customerData == null)
+                onErrorLine(line)
+            customerData
+        }
+        .filterNotNull()
         .filter { it.score >= 10 }
         .sortedBy(CustomerData::score)
         .toList()
     return sequenceOf("ID\tName\tSpend") +
-            valuableCustomers.map (CustomerData::outputLine) +
+            valuableCustomers.map(CustomerData::outputLine) +
             valuableCustomers.summarised()
 }
 
-private fun Sequence<String>.withoutHeader() = drop(1)
-
 private fun List<CustomerData>.summarised(): String =
-    sumOf {
-        it.spend
-    }.let { total ->
+    sumByDouble { it.spend }.let { total ->
         "\tTOTAL\t${total.toMoneyString()}"
     }
 
-internal fun String.toCustomerData(): CustomerData =
+private fun Sequence<String>.withoutHeader() = drop(1)
+
+internal fun String.toCustomerData(): CustomerData? =
     split("\t").let { parts ->
+        if (parts.size < 4)
+            return null
+        val score = parts[3].toIntOrNull() ?:
+        return null
+        val spend = if (parts.size == 4) 0.0 else parts[4].toDoubleOrNull() ?:
+        return null
         CustomerData(
             id = parts[0],
             givenName = parts[1],
             familyName = parts[2],
-            score = parts[3].toInt(),
-            spend = if (parts.size == 4) 0.0 else parts[4].toDouble()
+            score = score,
+            spend = spend
         )
     }
 

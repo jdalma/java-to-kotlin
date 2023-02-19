@@ -53,6 +53,9 @@ class HighValueCustomersReportTests {
         inputLines: List<String>,
         expectedLines: List<String>
     ) {
-        assertEquals(expectedLines , generate(inputLines))
+        assertEquals(
+            expectedLines,
+            inputLines.asSequence().constrainOnce().toHighValueCustomerReport().toList()
+        )
     }
 }

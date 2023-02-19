@@ -3,23 +3,19 @@ package chapter20.travelator.marketing
 import java.io.IOException
 import java.io.Writer
 
-@Throws(IOException::class)
-fun generate(writer: Writer, lines: List<String>) {
-
-    writer.append(generate(lines).joinToString("\n"))
-}
-
-fun generate(lines: List<String>) : List<String> {
-    val valuableCustomers = lines
+fun Sequence<String>.toHighValueCustomerReport() : Sequence<String> {
+    val valuableCustomers = this
+        .withoutHeader()
         .map(String::toCustomerData)
         .filter { it.score >= 10 }
         .sortedBy(CustomerData::score)
-    return listOf("\"ID\\tName\\tSpend\"") +
+        .toList()
+    return sequenceOf("ID\tName\tSpend") +
             valuableCustomers.map (CustomerData::outputLine) +
             valuableCustomers.summarised()
 }
 
-private fun List<String>.withoutHeader() = drop(1)
+private fun Sequence<String>.withoutHeader() = drop(1)
 
 private fun List<CustomerData>.summarised(): String =
     sumOf {

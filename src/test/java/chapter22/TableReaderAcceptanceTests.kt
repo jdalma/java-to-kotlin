@@ -1,4 +1,4 @@
-package chapter21
+package chapter22
 
 import org.junit.jupiter.api.Test
 import kotlin.test.assertEquals
@@ -36,9 +36,5 @@ class TableReaderAcceptanceTests {
                 )
             }
         )
-    }
-
-    private fun readTable(input: List<String>): List<Map<String, String>> {
-        TODO("Not yet implemented")
     }
 }

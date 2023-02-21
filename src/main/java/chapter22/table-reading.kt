@@ -2,17 +2,33 @@ package chapter22
 
 
 fun readTableWithHeader(
-    lines: List<String>,
+    lines: Sequence<String>,
     splitter: (String) -> List<String> = splitOnComma
-): List<Map<String, String>> =
-    when {
-        lines.isEmpty() -> emptyList()
+) = when {
+        lines.firstOrNull() == null -> emptySequence()
         else -> readTable(
             lines.drop(1),
             headerProviderFrom(lines.first(), splitter),
             splitter
         )
     }
+
+fun readTable(
+    lines: Sequence<String>,
+    headerProvider: (Int) -> String = Int::toString,
+    splitter: (String) -> List<String> = splitOnComma
+) = lines.map {
+    parseLine(it, headerProvider, splitter)
+}
+
+fun splitOn(
+    separators: String
+): (String) -> List<String> = { line ->
+    line.splitFields(separators)
+}
+
+val splitOnComma: (String) -> List<String> = splitOn(",")
+val splitOnTab: (String) -> List<String> = splitOn("\t")
 
 fun headerProviderFrom(
     header: String,
@@ -21,24 +37,6 @@ fun headerProviderFrom(
     val headers = splitter(header)
     return {index -> headers[index]}
 }
-
-fun readTable(
-    lines: List<String>,
-    headerProvider: (Int) -> String = Int::toString,
-    splitter: (String) -> List<String> = splitOnComma
-): List<Map<String, String>> =
-    lines.map {
-//        [1]
-//        parseLine(it, headerProvider) { line ->
-//            line.splitFields(",")
-//        }
-//        [2]
-//        val splitOnComma: (String) -> List<String> = { line ->
-//            line.splitFields(",")
-//        }
-//        parseLine(it, headerProvider, splitOnComma)
-        parseLine(it, headerProvider, splitter)
-    }
 
 private fun parseLine(
     line: String,
@@ -52,12 +50,3 @@ private fun parseLine(
 
 private fun String.splitFields(separators: String): List<String> =
     if (this.isEmpty()) emptyList() else this.split(separators)
-
-fun splitOn(
-    separators: String
-): (String) -> List<String> = { line ->
-    line.splitFields(separators)
-}
-
-val splitOnComma: (String) -> List<String> = splitOn(",")
-val splitOnTab: (String) -> List<String> = splitOn("\t")

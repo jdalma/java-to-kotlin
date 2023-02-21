@@ -26,15 +26,17 @@ class TableReaderAcceptanceTests {
             Measurement(1.0, 2.0, 3.0)
         )
 
+        val actual = readTableWithHeader(input.asSequence()).map { record ->
+            Measurement(
+                record["time"]?.toDouble() ?: error("in time"),
+                record["x"]?.toDouble() ?: error("in x"),
+                record["y"]?.toDouble() ?: error("in y")
+            )
+        }.toList()
+
         assertEquals(
             expected,
-            readTableWithHeader(input).map { record ->
-                Measurement(
-                    record["time"]?.toDouble() ?: error("in time"),
-                    record["x"]?.toDouble() ?: error("in x"),
-                    record["y"]?.toDouble() ?: error("in y")
-                )
-            }
+            actual
         )
     }
 }

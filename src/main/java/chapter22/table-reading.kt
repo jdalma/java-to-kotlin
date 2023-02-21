@@ -4,15 +4,23 @@ package chapter22
 fun readTableWithHeader(
     lines: Sequence<String>,
     splitter: (String) -> List<String> = splitOnComma
-) = when {
-        lines.firstOrNull() == null -> emptySequence()
-        else -> readTable(
-            lines.drop(1),
-            headerProviderFrom(lines.first(), splitter),
+) :Sequence<Map<String, String>> =
+    lines.destruct()?.let {(first, second) ->
+        readTable(
+            second,
+            headerProviderFrom(first, splitter),
             splitter
         )
-    }
+    } ?: emptySequence()
 
+fun <T> Sequence<T>.destruct() : Pair<T, Sequence<T>>? {
+    val iterator = this.iterator()
+    return when {
+        iterator.hasNext() ->
+            iterator.next() to iterator.asSequence()
+        else -> null
+    }
+}
 fun readTable(
     lines: Sequence<String>,
     headerProvider: (Int) -> String = Int::toString,

@@ -28,7 +28,7 @@ class TableReaderAcceptanceTests {
 
         assertEquals(
             expected,
-            readTable(input).map { record ->
+            readTableWithHeader(input).map { record ->
                 Measurement(
                     record["time"]?.toDouble() ?: error("in time"),
                     record["x"]?.toDouble() ?: error("in x"),

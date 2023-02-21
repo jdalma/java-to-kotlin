@@ -948,5 +948,11 @@ return sequenceOf("\"ID\\tName\\tSpend\"") +
 1. [인수 테스트 코드 작성](https://github.com/jdalma/java-to-kotlin/commit/6413e231135048d28a0b4331e7db577be2196fb7)
    - 필요한 인터페이스와 타입이 정해졌다.
    - 테스트 주도 개발을 따르면, **구현을 변경해야 할 이유가 되는 테스트를 먼저 추가해야 한다.**
-2. [단위 테스트]()
-
+2. [단위 테스트](https://github.com/jdalma/java-to-kotlin/commit/ab7b764d9526d1a3b44dad356c42b84e274b0d45)
+   - 책의 흐름은 TDD로 진행했다. 
+   - `"신뢰하되 직접 검증하라!"`
+3. [다른 필드 구분자를 위해 구분자에 대한 추상화](https://github.com/jdalma/java-to-kotlin/commit/3901499c9fe56a2bc39193598acb3241c7bc7ad3)
+   - `"처음부터 함수 타입을 언어에 포함해 설계된 코틀린의 경우 개발자들이 이런 추상화를 사용할 준비가 더 많이 되어 있다."`
+   - `splitter` 람다 함수를 호출자 지정해줄 수 있게끔 파라미터화하고 기본 함수를 지정해놓는다.
+   - 주요 로직의 일부분들을 람다 함수로 치환하여 호출자가 선택하게끔하는 것이 인상 깊다.
+   

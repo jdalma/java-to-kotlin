@@ -9,6 +9,33 @@ import kotlin.test.assertNotEquals
 class TableReaderTests {
 
     @Test
+    fun `Table contains headers`() {
+        val result: Table = readTableWithHeader(
+            listOf(
+                "H0,H1",
+                "field0,field1"
+            ).asSequence()
+        )
+        assertEquals(
+            listOf("H0", "H1"),
+            result.headers
+        )
+    }
+
+    @Test
+    fun `Table not contains headers`() {
+        val result: Table = readTableWithHeader(
+            listOf(
+                "field0,field1"
+            ).asSequence()
+        )
+        assertEquals(
+            listOf("H0", "H1"),
+            result.headers
+        )
+    }
+
+    @Test
     fun `empty input returns empty`() {
         checkReadTable(
             lines = emptyList(),
